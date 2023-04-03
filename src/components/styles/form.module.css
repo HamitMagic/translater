@@ -1,0 +1,17 @@
+form {
+    text-align: center;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+    gap:4px;
+}
+
+input {
+    flex: 1 1 auto;
+    border-radius: 50px;
+    padding: 0 8px;
+}
+button {
+    border-radius: 50px;
+}

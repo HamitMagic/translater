@@ -1,0 +1,40 @@
+{
+    "ru": {
+        "home": "Домой",
+        "about": "О Приложении",
+        "login": "Войти",
+        "logout": "Выйти",
+        "create": "Создать",
+        "loading": "Идет Загрузка...",
+        "error": "произошла ошибка"
+    },
+    "en": {
+        "home": "Home",
+        "about": "About",
+        "login": "Login",
+        "logout": "Logout",
+        "create": "Create",
+        "loading": "Loading...",
+        "error": "something was wrong"
+    },
+    "es": {
+        "home": "Home_Spain",
+        "about": "About_Spain",
+        "login": "Login_Spain",
+        "logout": "Logout_Spain",
+        "create": "Create_Spain",
+        "loading": "Идет Загрузка на испанском...",
+        "error": "произошла ошибка испанский"
+
+    },
+    "kk": {
+        "home": "Уйге",
+        "about": "приложение жененде",
+        "login": "Киру",
+        "logout": "Шыгу",
+        "create": "Жасоо",
+        "loading": "жооктоолуйдо...",
+        "error": "ката хапенед"
+
+    }
+}
