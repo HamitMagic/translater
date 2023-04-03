@@ -16,11 +16,10 @@ function Home({language}) {
         const response = await ticketsService();
         setTickets(response.data)
     })
-    const postTicket = 973459876345;
-    // const [postTicket, errorPosting] = useTicket(async () => {
-    //     const ticket = await ticketsService(fromLanguage, toLanguage);
-    //     console.log(ticket)
-    // })
+    const [postTicket, errorPosting] = useTicket(async () => {
+        const ticket = await ticketsService(fromLanguage, toLanguage);
+        console.log(ticket)
+    })
 
     useEffect(() => {
         fetchTickets();
