@@ -10,10 +10,15 @@ function Form({callback}) {
     });
     const [inputText, setInputText] = useState('');
 
+    function sendRequest(e) {
+        e.preventDefault();
+        setInputText('');
+        callback();
+    }
+
     return (
-        <form className={classes.form} onSubmit={(e) => callback(e, inputText)}>
-            <input onChange={(e) => setInputText(e.target.value)} type='text' />
-             
+        <form className={classes.form} onSubmit={(e) => sendRequest(e)}>
+            <input onChange={(e) => setInputText(e.target.value)} type='text' value={inputText}/>
             <MyButton type='submit' text={dictionary[language].create} />
         </form>
     );

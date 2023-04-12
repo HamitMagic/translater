@@ -1,4 +1,11 @@
 .ticket_item {
     align-content: center;
-    width: 80%;
+    /* width: 80%; */
+    background-color: white;
+    margin: 4px;
+    width: fit-content;
+}
+
+.ticket_delete:hover {
+    cursor: pointer;
 }
