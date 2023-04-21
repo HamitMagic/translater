@@ -4,41 +4,66 @@ import { useFetch } from '../hooks/useFetch';
 import Tickets from '../components/Tickets';
 import Form from '../components/UI/Form';
 import dictionary from '../../assets/dictinary.json';
+import { refreshToken } from '../API/ticketsService';
 
 
-function Home({language}) {
-    const [fromLanguage, setFromLanguage] = useState('en');
-    const [toLanguage, setToLanguage] = useState('kk');
+
+function Home({language, isLogin, setLogin, token}) {
+    const [fromLanguage, setFromLanguage] = useState('ru');
+    const [toLanguage, setToLanguage] = useState('en');
     const [page, setPage] = useState(1);
     const [tickets, setTickets] = useState([]);
-    const [currentTicket, setCurrentTicket] = useState("")
+    const [newTicket, setNewTicket] = useState('')
+    const [currentTicket, setCurrentTicket] = useState("");
+
     const [fetchTickets, isTicketLoaded, getError] = useFetch(async () => {
-        const response = await getTickets();
+        const response = await getTickets(token);
         setTickets(response.data);
-    })
+        setLogin(true);
+    });
+
     const [postTicket, isTicketSend, postError] = useFetch(async () => {
-        const ticket = await sendTicket(fromLanguage, toLanguage);
-        const newTickets = tickets;
-        newTickets.push(ticket);
-        setTickets(newTickets);
-    })
+        const ticket = await sendTicket(fromLanguage, toLanguage, token);
+        console.log(ticket);
+        setTickets([...tickets, ticket]);
+    });
+
     const [deletedTicket, isDeleted, deleteError] = useFetch(async () => {
         console.log(currentTicket, 'remove');
-        const deletedticket = await removeTicket(currentTicket);
+        const deletedTicket = await removeTicket(currentTicket, token);
         setTickets(tickets.filter((ticket) => ticket._id !== currentTicket));
-    })
+        return deletedTicket;
+    });
+
+    useEffect (() => {
+        if (newTicket) {
+            postTicket();
+        };
+    }, [newTicket]);
 
     useEffect(() => {
-        if (currentTicket) deletedTicket();
-    },[currentTicket])
-    
+        if (currentTicket) {
+            deletedTicket();
+            setCurrentTicket('');
+        }
+    }, [currentTicket]);
+
     useEffect(() => {
         fetchTickets();
-    }, [page])
+    }, [page, token]);
 
     return (
         <>
-            <Form callback={postTicket}/>
+            <Form callback={postTicket} 
+                fromLanguage={fromLanguage}
+                toLanguage={toLanguage} 
+                setFromLanguage={setFromLanguage}
+                setToLanguage={setToLanguage}
+            />
+            <button onClick={() => {
+                console.log('вошли? ', isLogin, 'from = ', fromLanguage, ' to = ', toLanguage);
+                refreshToken();
+            }}>консоль</button>
             {isTicketLoaded
                 ? <h1>{dictionary[language].loading}</h1>
                 : <Tickets tickets={tickets} deleteTicket={(id) => setCurrentTicket(id)} />}

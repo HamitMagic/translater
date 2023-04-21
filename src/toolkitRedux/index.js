@@ -1,10 +1,11 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import toolkitLanguage from "./toolkitLanguage";
 import toolkitReducer from "./toolkitReducer";
+import isLogin from "./isLogin";
 
 const rootReducer = combineReducers(
     {
-        toolkit: toolkitReducer
+        toolkit: toolkitReducer,
+        login: isLogin,
     }
 )
 

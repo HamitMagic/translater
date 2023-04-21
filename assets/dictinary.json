@@ -6,7 +6,9 @@
         "logout": "Выйти",
         "create": "Создать",
         "loading": "Идет Загрузка...",
-        "error": "произошла ошибка"
+        "error": "произошла ошибка",
+        "translateFrom": "перевести с",
+        "translateTo": "на"
     },
     "en": {
         "home": "Home",
@@ -15,7 +17,9 @@
         "logout": "Logout",
         "create": "Create",
         "loading": "Loading...",
-        "error": "something was wrong"
+        "error": "something was wrong",
+        "translateFrom": "translate from",
+        "translateTo": "to"
     },
     "es": {
         "home": "Home_Spain",
@@ -24,7 +28,9 @@
         "logout": "Logout_Spain",
         "create": "Create_Spain",
         "loading": "Идет Загрузка на испанском...",
-        "error": "произошла ошибка испанский"
+        "error": "произошла ошибка испанский",
+        "translateFrom": "translate from (Spain)",
+        "translateTo": "to (Spain)"
 
     },
     "kk": {
@@ -34,7 +40,9 @@
         "logout": "Шыгу",
         "create": "Жасоо",
         "loading": "жооктоолуйдо...",
-        "error": "ката хапенед"
+        "error": "ката хапенед",
+        "translateFrom": "translate from (kaz)",
+        "translateTo": "to (kaz)"
 
     }
 }

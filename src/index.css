@@ -2,3 +2,6 @@ body {
     background-image: url('../assets/background.jpg');
     margin: 10px;
 }
+#root {
+    height: 100%;
+}
