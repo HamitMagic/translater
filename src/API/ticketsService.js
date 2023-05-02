@@ -1,10 +1,9 @@
-import axios from 'axios';
-import {URL} from './API';
+import API from './API';
 
-const tokens = {
-    access: localStorage.getItem('access') ?? '',
-    refresh: localStorage.getItem('refresh') ?? '',
-}
+// const tokens = {
+//     access: localStorage.getItem('access') ?? '',
+//     refresh: localStorage.getItem('refresh') ?? '',
+// }
 
 // export const config = {
 //     headers: {
@@ -14,32 +13,18 @@ const tokens = {
 
 // axios.defaults.headers.common['Authorization'] = `Bearer ${tokens.access}`;
 
-export async function refreshToken() {
-    const response = await axios.get(`${URL}refresh`);
-    console.log(response)
+export async function getTickets() {
+    const response = await API.get(`tickets`);
     return response;
 }
 
-export async function getTickets(token) {
-    const response = await axios.get(`${URL}tickets`, {headers: {
-            Authorization: `Bearer ${token}`,
-        }});
-    return response;
-}
-
-export async function sendTicket(fromLanguage, toLanguage, token) {
-    const response = await axios.post(`${URL}tickets`, {fromLanguage, toLanguage,}, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
-    });
+export async function sendTicket(fromLanguage, toLanguage) {
+    const response = await API.post(`tickets`, JSON.stringify({fromLanguage, toLanguage}));
     const newTicket = await response.data;
     return newTicket;
 }
 
-export async function removeTicket(id, token) {
-    const response = await axios.delete(`${URL}tickets/${id}`, {headers: {
-        Authorization: `Bearer ${token}`,
-    }});
+export async function removeTicket(id) {
+    const response = await API.delete(`tickets/${id}`);
     return response.data;
 }

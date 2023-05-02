@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import dictionary from '../assets/dictinary.json';
 import './App.css'
@@ -6,46 +5,47 @@ import About from './pages/About';
 import Header from './components/Header';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import { useEffect, useState } from 'react';
-// import { fetchTickets } from './pages/Home';
-import { getTickets } from './API/ticketsService';
+import { useContext, useEffect, useState} from 'react';
+import { Context } from './main';
+import { observer } from 'mobx-react-lite';
 
+const html = document.querySelector('html');
+const [ru, kaz, en, es] = ['ru', 'kk', 'en', 'es'];
 
-function App({isLogin, setLogin}) {
-    const dispatch = useDispatch();
-    const language = useSelector(state => {
-        return state.toolkit.dictionaryKey;
-    });
-    const [token, setToken] = useState(localStorage.getItem('access'), '')
+function App() {
+    const {store} = useContext(Context);
+    const [appLang, setAppLang] = useState(store.language ?? localStorage.getItem('language') ?? ru)
+        
+    useEffect(() => {
+        if (localStorage.getItem('access')) {
+            store.checkAuth();
+        }
+        localStorage.setItem('language', appLang);
+        html.lang=appLang;
+        store.setLanguage(appLang);
+    },[appLang]);
 
-    // useEffect(() => {
-    //     if (getTickets().status === 200) setLogin(true);
-    //     else setLogin(false);
-    //     console.log(isLogin, ' = isLogin')
-
-    // },[])
-    
     return (
         <BrowserRouter>
             <Header >
-                <select defaultValue={language || 'ru'} onChange={(e) => dispatch({type: e.target.value})}>
-                    <option value='ru'>russian</option>
-                    <option value='en'>english</option>
-                    <option value='kk'>kazakh</option>
-                    <option value='es'>spanish</option>
+                <select defaultValue={appLang} onChange={(e) => setAppLang(e.target.value)}>
+                    <option value={ru}>russian</option>
+                    <option value={en}>english</option>
+                    <option value={kaz}>kazakh</option>
+                    <option value={es}>spanish</option>
                 </select>
-                <Link to='/about'>{dictionary[language].about}</Link>
-                <Link to='/home'>{dictionary[language].home}</Link>
-                <Link to='/login'>{isLogin ? dictionary[language].logout: dictionary[language].login}</Link>
+                <Link to='/about'>{dictionary[appLang].about}</Link>
+                <Link to='/home'>{dictionary[appLang].home}</Link>
+                <Link to='/login'>{store.isLogin ? dictionary[appLang].logout : dictionary[appLang].login}</Link>
             </Header>
             <Routes>
-                <Route path="/about" element={<About language={language} />} />
-                <Route path='/home' element={<Home token={token} isLogin={isLogin} setLogin={setLogin} language={language} />} />
-                <Route path='*' element={<About language={language} />} />
-                <Route path="/login" element={<Login setToken={setToken} token={token} isLogin={isLogin} setLogin={setLogin} language={language} />} />
+                <Route path="/about" element={<About language={appLang} />} />
+                <Route path='/home' element={<Home />} />
+                <Route path='*' element={<About />} />
+                <Route path="/login" element={<Login />} />
             </Routes>
         </BrowserRouter>
     )
 }
 
-export default App
+export default observer(App)
