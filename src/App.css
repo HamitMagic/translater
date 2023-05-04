@@ -7,6 +7,12 @@ header select {
     left: 25px;
 }
 
+#show_password {
+    position:absolute;
+    right: 30px;
+    /* bottom: 25px; */
+}
+
 select {
     border-radius: 50px;
 }

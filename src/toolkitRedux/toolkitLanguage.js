@@ -27,13 +27,11 @@ const toolkitLanguage = createSlice({
         //     html.lang = ru;
         // },
         setEnglish(state) {
-            console.log(en)
             state.initialLang = en;
             setLanguage(en)
             html.lang = en;
         },
         setKazakh(state) {
-            console.log(kaz)
             state.initialLang = kaz;
             setLanguage(kaz)
             html.lang = kaz;
@@ -44,7 +42,6 @@ const toolkitLanguage = createSlice({
             html.lang = ru;
         },
         setSpanish(state) {
-            console.log(es)
             state.initialLang = es;
             setLanguage(es)
             html.lang = es;

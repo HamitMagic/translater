@@ -1,0 +1,16 @@
+.container {
+    margin: auto;
+    background-color: red;
+    height: 80vh;
+    width: 30vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.form {
+    display: flex;
+    flex-flow: wrap column;
+}

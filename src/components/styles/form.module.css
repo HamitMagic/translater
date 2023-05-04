@@ -5,6 +5,7 @@ form {
     justify-content: center;
     margin: 10px 0;
     gap:4px;
+    position: relative;
 }
 
 input {
@@ -14,4 +15,8 @@ input {
 }
 button {
     border-radius: 50px;
+}
+.buttons {
+    display: flex;
+    justify-content: space-around;
 }

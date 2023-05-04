@@ -4,11 +4,11 @@ import { useFetch } from '../hooks/useFetch';
 import Tickets from '../components/Tickets';
 import Form from '../components/UI/Form';
 import dictionary from '../../assets/dictinary.json';
-import { refreshToken } from '../API/ticketsService';
+import { observer } from 'mobx-react-lite';
+import { authStore } from '../mobx/authStore';
 
 
-
-function Home({language, isLogin, setLogin, token}) {
+function Home() {
     const [fromLanguage, setFromLanguage] = useState('ru');
     const [toLanguage, setToLanguage] = useState('en');
     const [page, setPage] = useState(1);
@@ -17,40 +17,36 @@ function Home({language, isLogin, setLogin, token}) {
     const [currentTicket, setCurrentTicket] = useState("");
 
     const [fetchTickets, isTicketLoaded, getError] = useFetch(async () => {
-        const response = await getTickets(token);
+        const response = await getTickets();
         setTickets(response.data);
-        setLogin(true);
+        authStore.setLogin(true);
     });
 
     const [postTicket, isTicketSend, postError] = useFetch(async () => {
-        const ticket = await sendTicket(fromLanguage, toLanguage, token);
-        console.log(ticket);
+        const ticket = await sendTicket(fromLanguage, toLanguage);
         setTickets([...tickets, ticket]);
     });
 
     const [deletedTicket, isDeleted, deleteError] = useFetch(async () => {
         console.log(currentTicket, 'remove');
-        const deletedTicket = await removeTicket(currentTicket, token);
+        const removedTicket = await removeTicket(currentTicket);
         setTickets(tickets.filter((ticket) => ticket._id !== currentTicket));
-        return deletedTicket;
     });
-
-    useEffect (() => {
-        if (newTicket) {
-            postTicket();
-        };
-    }, [newTicket]);
 
     useEffect(() => {
         if (currentTicket) {
             deletedTicket();
-            setCurrentTicket('');
+            return;
         }
-    }, [currentTicket]);
-
-    useEffect(() => {
-        fetchTickets();
-    }, [page, token]);
+        else if (newTicket) {
+            postTicket();
+            return;
+        }
+        else {
+            fetchTickets();
+            return;
+        }
+    }, [newTicket, currentTicket]);
 
     return (
         <>
@@ -60,16 +56,12 @@ function Home({language, isLogin, setLogin, token}) {
                 setFromLanguage={setFromLanguage}
                 setToLanguage={setToLanguage}
             />
-            <button onClick={() => {
-                console.log('вошли? ', isLogin, 'from = ', fromLanguage, ' to = ', toLanguage);
-                refreshToken();
-            }}>консоль</button>
             {isTicketLoaded
-                ? <h1>{dictionary[language].loading}</h1>
+                ? <h1>{dictionary[authStore.language].loading}</h1>
                 : <Tickets tickets={tickets} deleteTicket={(id) => setCurrentTicket(id)} />}
-            {getError && <h1>{`${dictionary[language].error}: ${getError}`}</h1>}
+            {getError && <h1>{`${dictionary[authStore.language].error}: ${getError}`}</h1>}
         </>
     );
 }
 
-export default Home;
+export default observer(Home);

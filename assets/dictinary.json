@@ -8,7 +8,8 @@
         "loading": "Идет Загрузка...",
         "error": "произошла ошибка",
         "translateFrom": "перевести с",
-        "translateTo": "на"
+        "translateTo": "на",
+        "registrate": "Регистрация"
     },
     "en": {
         "home": "Home",
@@ -19,7 +20,8 @@
         "loading": "Loading...",
         "error": "something was wrong",
         "translateFrom": "translate from",
-        "translateTo": "to"
+        "translateTo": "to",
+        "registrate": "Registrate"
     },
     "es": {
         "home": "Home_Spain",
@@ -30,7 +32,8 @@
         "loading": "Идет Загрузка на испанском...",
         "error": "произошла ошибка испанский",
         "translateFrom": "translate from (Spain)",
-        "translateTo": "to (Spain)"
+        "translateTo": "to (Spain)",
+        "registrate": "rega Spain"
 
     },
     "kk": {
@@ -42,7 +45,8 @@
         "loading": "жооктоолуйдо...",
         "error": "ката хапенед",
         "translateFrom": "translate from (kaz)",
-        "translateTo": "to (kaz)"
+        "translateTo": "to (kaz)",
+        "registrate": "rega Kaz"
 
     }
 }

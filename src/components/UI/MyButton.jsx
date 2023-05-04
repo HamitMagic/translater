@@ -1,8 +1,8 @@
 import React from 'react';
 
-function MyButton({text}) {
+function MyButton({text, callback, logout}) {
     return (
-        <button>
+        <button onClick={callback ? () => callback(!logout) : null}>
             {text}
         </button>
     );
