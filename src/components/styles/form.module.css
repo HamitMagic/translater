@@ -5,6 +5,7 @@ form {
     justify-content: center;
     margin: 10px 0;
     gap:4px;
+    position: relative;
 }
 
 input {

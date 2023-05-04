@@ -5,25 +5,23 @@ import About from './pages/About';
 import Header from './components/Header';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import { useContext, useEffect, useState} from 'react';
-import { Context } from './main';
+import { useEffect, useState} from 'react';
 import { observer } from 'mobx-react-lite';
+import { authStore } from './mobx/authStore';
+import { tokenStore } from './mobx/token';
 
 const html = document.querySelector('html');
 const [ru, kaz, en, es] = ['ru', 'kk', 'en', 'es'];
 
 function App() {
-    const {store} = useContext(Context);
-    const [appLang, setAppLang] = useState(store.language ?? localStorage.getItem('language') ?? ru)
+    const [appLang, setAppLang] = useState(authStore.language ?? localStorage.getItem('language') ?? ru)
         
     useEffect(() => {
-        if (localStorage.getItem('access')) {
-            store.checkAuth();
-        }
+        authStore.updateAuth();
         localStorage.setItem('language', appLang);
         html.lang=appLang;
-        store.setLanguage(appLang);
-    },[appLang]);
+        authStore.setLanguage(appLang);
+    }, []);
 
     return (
         <BrowserRouter>
@@ -36,12 +34,13 @@ function App() {
                 </select>
                 <Link to='/about'>{dictionary[appLang].about}</Link>
                 <Link to='/home'>{dictionary[appLang].home}</Link>
-                <Link to='/login'>{store.isLogin ? dictionary[appLang].logout : dictionary[appLang].login}</Link>
+                <button onClick={(e) => authStore.updateAuth()}>проверить логин</button>
+                <Link to='/login'>{authStore.isLogin ? dictionary[appLang].logout : dictionary[appLang].login}</Link>
             </Header>
             <Routes>
                 <Route path="/about" element={<About language={appLang} />} />
                 <Route path='/home' element={<Home />} />
-                <Route path='*' element={<About />} />
+                <Route path='*' element={<About language={appLang} />} />
                 <Route path="/login" element={<Login />} />
             </Routes>
         </BrowserRouter>
@@ -49,3 +48,4 @@ function App() {
 }
 
 export default observer(App)
+// export default App;

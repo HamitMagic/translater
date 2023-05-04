@@ -1,15 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getTickets, removeTicket, sendTicket } from '../API/ticketsService';
 import { useFetch } from '../hooks/useFetch';
 import Tickets from '../components/Tickets';
 import Form from '../components/UI/Form';
 import dictionary from '../../assets/dictinary.json';
-import { Context } from '../main';
-
+import { observer } from 'mobx-react-lite';
+import { authStore } from '../mobx/authStore';
 
 
 function Home() {
-    const {store} = useContext(Context);
     const [fromLanguage, setFromLanguage] = useState('ru');
     const [toLanguage, setToLanguage] = useState('en');
     const [page, setPage] = useState(1);
@@ -20,6 +19,7 @@ function Home() {
     const [fetchTickets, isTicketLoaded, getError] = useFetch(async () => {
         const response = await getTickets();
         setTickets(response.data);
+        authStore.setLogin(true);
     });
 
     const [postTicket, isTicketSend, postError] = useFetch(async () => {
@@ -29,7 +29,7 @@ function Home() {
 
     const [deletedTicket, isDeleted, deleteError] = useFetch(async () => {
         console.log(currentTicket, 'remove');
-        const deletedTicket = await removeTicket(currentTicket);
+        const removedTicket = await removeTicket(currentTicket);
         setTickets(tickets.filter((ticket) => ticket._id !== currentTicket));
     });
 
@@ -57,11 +57,11 @@ function Home() {
                 setToLanguage={setToLanguage}
             />
             {isTicketLoaded
-                ? <h1>{dictionary[store.language].loading}</h1>
+                ? <h1>{dictionary[authStore.language].loading}</h1>
                 : <Tickets tickets={tickets} deleteTicket={(id) => setCurrentTicket(id)} />}
-            {getError && <h1>{`${dictionary[store.language].error}: ${getError}`}</h1>}
+            {getError && <h1>{`${dictionary[authStore.language].error}: ${getError}`}</h1>}
         </>
     );
 }
 
-export default Home;
+export default observer(Home);
